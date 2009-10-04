@@ -27,10 +27,12 @@ exports.XMLHttpRequest = function() {
 	var settings = {};
 	
 	// Set some default headers
-	var headers = {
+	var defaultHeaders = {
 		"User-Agent": "node.js",
 		"Accept": "*/*",
 	};
+	
+	var headers = defaultHeaders;
 	
 	/**
 	 * Constants
@@ -70,6 +72,10 @@ exports.XMLHttpRequest = function() {
 			"user": user,
 			"password": password
 		};
+		
+		this.abort();
+
+		setState(this.OPENED);
 	};
 	
 	/**
@@ -102,7 +108,15 @@ exports.XMLHttpRequest = function() {
 	 * @return string 
 	 */
 	this.getAllResponseHeaders = function() {
-		return null;
+		if (this.readyState < this.HEADERS_RECEIVED) {
+			throw "INVALID_STATE_ERR: Headers have not been received.";
+		}
+		var result = "";
+		
+		foreach (header in headers) {
+			result += header + ": " + headers[header] + "\r\n";
+		}
+		return result.substr(0, result.length - 2);
 	};
 
 	/**
@@ -111,7 +125,13 @@ exports.XMLHttpRequest = function() {
 	 * @param string data Optional data to send as request body.
 	 */
 	this.send = function(data) {
+		if (this.readyState != this.OPENED) {
+			throw "INVALID_STATE_ERR: connection must be opened before send() is called";
+		}
+		
 		/**
+		setState(this.OPENED);
+
 		 * Figure out if a host and/or port were specified.
 		 * Regex borrowed from parseUri and modified. Needs additional optimization.
 		 * @see http://blog.stevenlevithan.com/archives/parseuri
@@ -149,11 +169,15 @@ exports.XMLHttpRequest = function() {
 		
 		client = http.createClient(port, host);
 
-		setState(this.OPENED);
-
 		// Set content length header
-		if (data) {
+		if (settings.method == "GET" || settings.method == "HEAD") {
+			data = null;
+		} else if (data) {
 			headers["Content-Length"] = data.length;
+			
+			if (!headers["Content-Type"]) {
+				headers["Content-Type"] = "text/plain;charset=UTF-8";
+			}
 		}
 		
 		// Use the correct request method
@@ -213,7 +237,10 @@ exports.XMLHttpRequest = function() {
 	 * Aborts a request.
 	 */
 	this.abort = function() {
-		
+		headers = defaultHeaders;
+		this.readyState = this.UNSENT;
+		this.responseText = "";
+		this.responseXML = "";
 	};
 	
 	/**
