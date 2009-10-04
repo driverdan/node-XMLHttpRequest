@@ -3,3 +3,10 @@ Wrapper for built-in http.js to emulate the browser XMLHttpRequest object.
 This can be used with JS designed for browsers to improve reuse of code and allow the use of existing libraries.
 
 Usage: include("XMLHttpRequest.js") and use XMLHttpRequest per W3C specs.
+
+*TODO*
+
+SSL support
+Basic authentication
+Additional unit tests
+Possibly move from http to tcp for better flexability
