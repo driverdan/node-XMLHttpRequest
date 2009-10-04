@@ -1,10 +1,12 @@
 include("common.js");
 
+var xhr = new XMLHttpRequest();
+
 // Test constant values
-assertEquals(xhr.UNSENT, 0);
-assertEquals(xhr.OPENED, 1);
-assertEquals(xhr.HEADERS_RECEIVED, 2);
-assertEquals(xhr.LOADING, 3);
-assertEquals(xhr.DONE, 4);
+assertEquals(0, xhr.UNSENT);
+assertEquals(1, xhr.OPENED);
+assertEquals(2, xhr.HEADERS_RECEIVED);
+assertEquals(3, xhr.LOADING);
+assertEquals(4, xhr.DONE);
 
 puts("done");

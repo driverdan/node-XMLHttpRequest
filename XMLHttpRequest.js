@@ -15,6 +15,7 @@ exports.XMLHttpRequest = function() {
 	/**
 	 * Private variables
 	 */
+	var self = this;
 	var http = require('/http.js');
 
 	// Holds http.js objects
@@ -47,11 +48,11 @@ exports.XMLHttpRequest = function() {
 	this.readyState = this.UNSENT;
 
 	// Result & response
-	this.responseText = null;
-	this.responseXML = null;
+	this.responseText = "";
+	this.responseXML = "";
 	this.status = null;
 	this.statusText = null;
-	
+		
 	/**
 	 * Open the connection. Currently supports local server requests.
 	 *
@@ -110,8 +111,6 @@ exports.XMLHttpRequest = function() {
 	 * @param string data Optional data to send as request body.
 	 */
 	this.send = function(data) {
-		var self = this;
-		
 		/**
 		 * Figure out if a host and/or port were specified.
 		 * Regex borrowed from parseUri and modified. Needs additional optimization.
@@ -150,8 +149,7 @@ exports.XMLHttpRequest = function() {
 		
 		client = http.createClient(port, host);
 
-		this.readyState = this.OPENED;
-		this.onreadystatechange();
+		setState(this.OPENED);
 
 		// Set content length header
 		if (data) {
@@ -184,8 +182,7 @@ exports.XMLHttpRequest = function() {
 				throw "Request method is unsupported.";
 		}
 
-		this.readyState = this.HEADERS_RECEIVED;
-		this.onreadystatechange();
+		setState(this.HEADERS_RECEIVED);
 
 		// Send data to the server
 		if (data) {
@@ -203,13 +200,11 @@ exports.XMLHttpRequest = function() {
 				if (chunk) {
 					self.responseText += chunk;
 				}
-				self.readyState = self.LOADING;
-				self.onreadystatechange();
+				setState(self.LOADING);
 			});
 	
 			response.addListener("complete", function() {
-				self.readyState = self.DONE;
-				self.onreadystatechange();
+				setState(self.DONE);
 			});
 		});
 	};
@@ -220,4 +215,14 @@ exports.XMLHttpRequest = function() {
 	this.abort = function() {
 		
 	};
+	
+	/**
+	 * Changes readyState and calls onreadystatechange.
+	 *
+	 * @param int state New state
+	 */
+	var setState = function(state) {
+		self.readyState = state;
+		self.onreadystatechange();
+	}
 };
