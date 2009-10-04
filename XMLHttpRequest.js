@@ -85,7 +85,7 @@ exports.XMLHttpRequest = function() {
 	 * @param string value Header value
 	 */
 	this.setRequestHeader = function(header, value) {
-		headers.header = value;
+		headers[header] = value;
 	};
 	
 	/**
@@ -113,8 +113,8 @@ exports.XMLHttpRequest = function() {
 		}
 		var result = "";
 		
-		foreach (header in headers) {
-			result += header + ": " + headers[header] + "\r\n";
+		for (var i in response.headers) {
+			result += i + ": " + response.headers[i] + "\r\n";
 		}
 		return result.substr(0, result.length - 2);
 	};
@@ -206,8 +206,6 @@ exports.XMLHttpRequest = function() {
 				throw "Request method is unsupported.";
 		}
 
-		setState(this.HEADERS_RECEIVED);
-
 		// Send data to the server
 		if (data) {
 			request.sendBody(data);
@@ -216,7 +214,9 @@ exports.XMLHttpRequest = function() {
 		request.finish(function(resp) {
 			response = resp;
 			response.setBodyEncoding("utf8");
-	
+			
+			setState(this.HEADERS_RECEIVED);
+
 			self.status = response.statusCode;
 			
 			response.addListener("body", function(chunk) {

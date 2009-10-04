@@ -7,7 +7,11 @@ var xhr;
 var server = createServer(function (req, res) {
 	assertEquals(methods[curMethod], req.method);
 	assertEquals("/" + methods[curMethod], req.uri.path);
-	res.sendHeader(200, {"Content-Type": "text/plain"});
+	var body = "Hello World";
+	res.sendHeader(200, {
+		"Content-Type": "text/plain",
+		"Content-Length": body.length
+	});
 	res.sendBody("Hello World");
 	res.finish();
 	
