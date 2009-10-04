@@ -163,7 +163,7 @@ exports.XMLHttpRequest = function() {
 				break;
 			
 			case 'POST':
-				request = client.get(uri, headers);
+				request = client.post(uri, headers);
 				break;
 	
 			case 'HEAD':

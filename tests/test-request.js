@@ -10,6 +10,11 @@ var server = createServer(function (req, res) {
 	res.sendHeader(200, {"Content-Type": "text/plain"});
 	res.sendBody("Hello World");
 	res.finish();
+	
+	if (curMethod == methods.length - 1) {
+		this.close();
+		puts("done");
+	}
 }).listen(8000);
 
 // Test all supported methods
@@ -27,10 +32,7 @@ function start(method) {
 			assertEquals("Hello World", this.responseText);
 			curMethod++;
 		
-			if (curMethod == methods.length) {
-				server.close();
-				puts("done");
-			} else {
+			if (curMethod < methods.length) {
 				start(methods[curMethod]);
 			}
 		}
