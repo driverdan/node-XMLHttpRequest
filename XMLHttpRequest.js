@@ -16,7 +16,7 @@ exports.XMLHttpRequest = function() {
 	 * Private variables
 	 */
 	var self = this;
-	var http = require('/http.js');
+	var http = require('http');
 
 	// Holds http.js objects
 	var client;

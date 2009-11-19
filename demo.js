@@ -1,14 +1,14 @@
-include("/utils.js");
-include("XMLHttpRequest.js");
+var sys = require('sys');
+var XMLHttpRequest = require("./XMLHttpRequest").XMLHttpRequest;
 
 var xhr = new XMLHttpRequest();
 
 xhr.onreadystatechange = function() {
-	puts("State: " + this.readyState);
+	sys.puts("State: " + this.readyState);
 	
 	if (this.readyState == 4) {
-		puts("Complete.\nBody length: " + this.responseText.length);
-		puts("Body:\n" + this.responseText);
+		sys.puts("Complete.\nBody length: " + this.responseText.length);
+		sys.puts("Body:\n" + this.responseText);
 	}
 };
 
