@@ -191,23 +191,23 @@ exports.XMLHttpRequest = function() {
 		// Use the correct request method
 		switch (settings.method) {
 			case 'GET':
-				request = client.get(uri, headers);
+				request = client.request("GET",uri, headers);
 				break;
 			
 			case 'POST':
-				request = client.post(uri, headers);
+				request = client.request("POST",uri, headers);
 				break;
 	
 			case 'HEAD':
-				request = client.head(uri, headers);
+				request = client.request("HEAD",uri, headers);
 				break;
 	
 			case 'PUT':
-				request = client.put(uri, headers);
+				request = client.request("PUT",uri, headers);
 				break;
 	
 			case 'DELETE':
-				request = client.del(uri, headers);
+				request = client.request("DELETE",uri, headers);
 				break;
 	
 			default:
@@ -218,16 +218,16 @@ exports.XMLHttpRequest = function() {
 		if (data) {
 			request.sendBody(data);
 		}
-
-		request.finish(function(resp) {
+		
+		request.addListener('response', function(resp) {
 			response = resp;
-			response.setBodyEncoding("utf8");
+			response.setEncoding("utf8");
 			
 			setState(this.HEADERS_RECEIVED);
 
 			self.status = response.statusCode;
 			
-			response.addListener("body", function(chunk) {
+			response.addListener("data", function(chunk) {
 				// Make sure there's some data
 				if (chunk) {
 					self.responseText += chunk;
@@ -235,10 +235,11 @@ exports.XMLHttpRequest = function() {
 				setState(self.LOADING);
 			});
 	
-			response.addListener("complete", function() {
+			response.addListener("end", function() {
 				setState(self.DONE);
 			});
-		});
+		});		
+		request.end();
 	};
 
 	/**
