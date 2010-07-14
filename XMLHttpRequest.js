@@ -168,6 +168,14 @@ exports.XMLHttpRequest = function() {
 		headers["Host"] = host;
 		
 		client = http.createClient(port, host);
+		
+		client.addListener('error', function (error) {  //Error checking
+			self.status=503;
+			self.statusText=error;
+			self.responseText=error.stack;
+			setState(self.DONE);
+			//throw error;
+		})
 
 		// Set content length header
 		if (settings.method == "GET" || settings.method == "HEAD") {
