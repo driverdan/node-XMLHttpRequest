@@ -98,8 +98,8 @@ exports.XMLHttpRequest = function() {
 	 * @return string Text of the header or null if it doesn't exist.
 	 */
 	this.getResponseHeader = function(header) {
-		if (this.readyState > this.OPENED && response.headers.header) {
-			return header + ": " + response.headers.header;
+		if (this.readyState > this.OPENED && response.headers[header]) {
+			return header + ": " + response.headers[header];
 		}
 		
 		return null;
