@@ -49,6 +49,9 @@ exports.XMLHttpRequest = function() {
 	// Current state
 	this.readyState = this.UNSENT;
 
+	// default ready state change handler in case one is not set or is set late
+	this.onreadystatechange = function() {};
+
 	// Result & response
 	this.responseText = "";
 	this.responseXML = "";
@@ -216,7 +219,7 @@ exports.XMLHttpRequest = function() {
 
 		// Send data to the server
 		if (data) {
-			request.sendBody(data);
+			request.write(data);
 		}
 		
 		request.addListener('response', function(resp) {
