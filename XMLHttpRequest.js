@@ -226,7 +226,7 @@ exports.XMLHttpRequest = function() {
 			response = resp;
 			response.setEncoding("utf8");
 			
-			setState(this.HEADERS_RECEIVED);
+			setState(self.HEADERS_RECEIVED);
 
 			self.status = response.statusCode;
 			
