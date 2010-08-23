@@ -185,30 +185,7 @@ exports.XMLHttpRequest = function() {
 		}
 		
 		// Use the correct request method
-		switch (settings.method) {
-			case 'GET':
-				request = client.request("GET",uri, headers);
-				break;
-			
-			case 'POST':
-				request = client.request("POST",uri, headers);
-				break;
-	
-			case 'HEAD':
-				request = client.request("HEAD",uri, headers);
-				break;
-	
-			case 'PUT':
-				request = client.request("PUT",uri, headers);
-				break;
-	
-			case 'DELETE':
-				request = client.request("DELETE",uri, headers);
-				break;
-	
-			default:
-				throw "Request method is unsupported.";
-		}
+        request = client.request(settings.method, uri, headers);
 
 		// Send data to the server
 		if (data) {
