@@ -1,10 +1,10 @@
-include("common.js");
-include("/http.js");
+require("./common");
+var http = require("http");
 
 var xhr;
 
 // Test server
-var server = createServer(function (req, res) {
+var server = http.createServer(function (req, res) {
 	// Test setRequestHeader
 	assertEquals("Foobar", req.headers["X-Test"]);
 	

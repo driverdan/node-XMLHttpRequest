@@ -1,10 +1,10 @@
-include("common.js");
-include("/http.js");
+require("./common");
+var http = require("http");
 
 var xhr;
 
 // Test server
-var server = createServer(function (req, res) {
+var server = http.createServer(function (req, res) {
 	assertEquals(methods[curMethod], req.method);
 	assertEquals("/" + methods[curMethod], req.uri.path);
 	var body = "Hello World";
@@ -21,7 +21,7 @@ var server = createServer(function (req, res) {
 	}
 }).listen(8000);
 
-// Test all supported methods
+// Test standard methods
 var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"];
 var curMethod = 0;
 

@@ -1,6 +1,4 @@
-include("common.js");
-
-var xhr = new XMLHttpRequest();
+require("./common");
 
 // Test constant values
 assertEquals(0, xhr.UNSENT);

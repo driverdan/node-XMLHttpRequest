@@ -1,5 +1,3 @@
-var Url = require("url");
-
 /**
  * Wrapper for built-in http.js to emulate the browser XMLHttpRequest object.
  *
@@ -12,6 +10,8 @@ var Url = require("url");
  * @author Dan DeFelippi <dan@driverdan.com>
  * @license MIT
  */
+
+var Url = require("url");
 
 exports.XMLHttpRequest = function() {
 	/**
@@ -134,7 +134,8 @@ exports.XMLHttpRequest = function() {
 			throw "INVALID_STATE_ERR: connection must be opened before send() is called";
 		}
 		
-		var url = Url.parse(settings.url)
+		var ssl = false;
+		var url = Url.parse(settings.url);
 
 		// Determine the server
 		switch (url.protocol) {
@@ -148,7 +149,7 @@ exports.XMLHttpRequest = function() {
 				break;
 			
 			case 'https:':
-				throw "SSL is not implemented.";
+				ssl = true;
 				break;
 			
 			default:
@@ -161,26 +162,27 @@ exports.XMLHttpRequest = function() {
 		var uri = url.pathname + url.search;
 		
 		// Set the Host header or the server may reject the request
-		headers["Host"] = host;
+		this.setRequestHeader("Host", host);
 		
-		client = http.createClient(port, host);
+		client = http.createClient(port, host, ssl);
 		
-		client.addListener('error', function (error) {  //Error checking
-			self.status=503;
-			self.statusText=error;
-			self.responseText=error.stack;
+		// Error checking
+		client.addListener('error', function (error) {
+			self.status = 503;
+			self.statusText = error;
+			self.responseText = error.stack;
 			setState(self.DONE);
-			//throw error;
+			// @todo throw error?
 		})
 
 		// Set content length header
 		if (settings.method == "GET" || settings.method == "HEAD") {
 			data = null;
 		} else if (data) {
-			headers["Content-Length"] = data.length;
+			this.setRequestHeader("Content-Length", data.length);
 			
 			if (!headers["Content-Type"]) {
-				headers["Content-Type"] = "text/plain;charset=UTF-8";
+				this.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 			}
 		}
 		

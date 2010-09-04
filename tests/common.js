@@ -1,4 +1,4 @@
-include("/mjsunit.js");
-include("/utils.js");
+require("mjsunit");
+require("utils");
 
-include("../XMLHttpRequest.js");
+require("../XMLHttpRequest");
