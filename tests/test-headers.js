@@ -1,33 +1,32 @@
-require("./common");
-var http = require("http");
-
-var xhr;
+var sys = require("sys")
+	,assert = require("assert")
+	,XMLHttpRequest = require("../XMLHttpRequest").XMLHttpRequest
+	,xhr = new XMLHttpRequest()
+	,http = require("http");
 
 // Test server
 var server = http.createServer(function (req, res) {
 	// Test setRequestHeader
-	assertEquals("Foobar", req.headers["X-Test"]);
+	assert.equal("Foobar", req.headers["x-test"]);
 	
 	var body = "Hello World";
-	res.sendHeader(200, {
+	res.writeHead(200, {
 		"Content-Type": "text/plain",
 		"Content-Length": body.length
 	});
-	res.sendBody("Hello World");
-	res.finish();
+	res.write("Hello World");
+	res.end();
 	
 	this.close();
 }).listen(8000);
 
-xhr = new XMLHttpRequest();
-
 xhr.onreadystatechange = function() {
 	if (this.readyState == 4) {
 		// Test getAllResponseHeaders()
-		var headers = "Content-Type: text/plain\r\nContent-Length: 11\r\nConnection: close";
-		assertEquals(headers, this.getAllResponseHeaders());
+		var headers = "content-type: text/plain\r\ncontent-length: 11\r\nconnection: close";
+		assert.equal(headers, this.getAllResponseHeaders());
 		
-		puts("done");
+		sys.puts("done");
 	}
 };
 

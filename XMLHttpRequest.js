@@ -11,7 +11,8 @@
  * @license MIT
  */
 
-var Url = require("url");
+var Url = require("url")
+	,sys = require("sys");
 
 exports.XMLHttpRequest = function() {
 	/**

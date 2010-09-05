@@ -1,10 +1,13 @@
-require("./common");
+var sys = require("sys")
+	,assert = require("assert")
+	,XMLHttpRequest = require("../XMLHttpRequest").XMLHttpRequest
+	,xhr = new XMLHttpRequest();
 
 // Test constant values
-assertEquals(0, xhr.UNSENT);
-assertEquals(1, xhr.OPENED);
-assertEquals(2, xhr.HEADERS_RECEIVED);
-assertEquals(3, xhr.LOADING);
-assertEquals(4, xhr.DONE);
+assert.equal(0, xhr.UNSENT);
+assert.equal(1, xhr.OPENED);
+assert.equal(2, xhr.HEADERS_RECEIVED);
+assert.equal(3, xhr.LOADING);
+assert.equal(4, xhr.DONE);
 
-puts("done");
+sys.puts("done");

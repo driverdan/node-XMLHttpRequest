@@ -1,23 +1,28 @@
-require("./common");
-var http = require("http");
-
-var xhr;
+var sys = require("sys")
+	,assert = require("assert")
+	,XMLHttpRequest = require("../XMLHttpRequest").XMLHttpRequest
+	,http = require("http")
+	,xhr;
 
 // Test server
 var server = http.createServer(function (req, res) {
-	assertEquals(methods[curMethod], req.method);
-	assertEquals("/" + methods[curMethod], req.uri.path);
+	assert.equal(methods[curMethod], req.method);
+	
+	//url = require("url").parse(req.uri);
+	assert.equal("/" + methods[curMethod], req.url);
+	
 	var body = "Hello World";
-	res.sendHeader(200, {
+	
+	res.writeHead(200, {
 		"Content-Type": "text/plain",
 		"Content-Length": body.length
 	});
-	res.sendBody("Hello World");
-	res.finish();
+	res.write("Hello World");
+	res.end();
 	
 	if (curMethod == methods.length - 1) {
 		this.close();
-		puts("done");
+		sys.puts("done");
 	}
 }).listen(8000);
 
@@ -26,14 +31,12 @@ var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"];
 var curMethod = 0;
 
 function start(method) {
-	p("Testing " + method);
-	
 	// Reset each time
 	xhr = new XMLHttpRequest();
 	
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4) {
-			assertEquals("Hello World", this.responseText);
+			assert.equal("Hello World", this.responseText);
 			curMethod++;
 		
 			if (curMethod < methods.length) {
