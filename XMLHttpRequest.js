@@ -74,9 +74,9 @@ exports.XMLHttpRequest = function() {
 		settings = {
 			"method": method,
 			"url": url,
-			"async": async,
-			"user": user,
-			"password": password
+			"async": async || null,
+			"user": user || null,
+			"password": password || null
 		};
 		
 		this.abort();
@@ -137,9 +137,12 @@ exports.XMLHttpRequest = function() {
 		
 		var ssl = false;
 		var url = Url.parse(settings.url);
-
+		
 		// Determine the server
 		switch (url.protocol) {
+			case 'https:':
+				ssl = true;
+			// SSL & non-SSL both need host, no break here.
 			case 'http:':
 				var host = url.hostname;
 				break;
@@ -149,10 +152,6 @@ exports.XMLHttpRequest = function() {
 				var host = "localhost";
 				break;
 			
-			case 'https:':
-				ssl = true;
-				break;
-			
 			default:
 				throw "Protocol not supported.";
 		}
@@ -160,7 +159,8 @@ exports.XMLHttpRequest = function() {
 		// Default to port 80. If accessing localhost on another port be sure
 		// to use http://localhost:port/path
 		var port = url.port || 80;
-		var uri = url.pathname + url.search;
+		// Add query string if one is used
+		var uri = url.pathname + (url.search ? url.search : '');
 		
 		// Set the Host header or the server may reject the request
 		this.setRequestHeader("Host", host);

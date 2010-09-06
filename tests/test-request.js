@@ -6,18 +6,20 @@ var sys = require("sys")
 
 // Test server
 var server = http.createServer(function (req, res) {
+	// Check request method and URL
 	assert.equal(methods[curMethod], req.method);
-	
-	//url = require("url").parse(req.uri);
 	assert.equal("/" + methods[curMethod], req.url);
 	
-	var body = "Hello World";
+	var body = (req.method != "HEAD" ? "Hello World" : "");
 	
 	res.writeHead(200, {
 		"Content-Type": "text/plain",
 		"Content-Length": body.length
 	});
-	res.write("Hello World");
+	// HEAD has no body
+	if (req.method != "HEAD") {
+		res.write("Hello World");
+	}
 	res.end();
 	
 	if (curMethod == methods.length - 1) {
@@ -36,7 +38,12 @@ function start(method) {
 	
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4) {
-			assert.equal("Hello World", this.responseText);
+			if (method == "HEAD") {
+				assert.equal("", this.responseText);
+			} else {
+				assert.equal("Hello World", this.responseText);
+			}
+			
 			curMethod++;
 		
 			if (curMethod < methods.length) {
@@ -45,7 +52,8 @@ function start(method) {
 		}
 	};
 	
-	xhr.open(method, "http://localhost:8000/" + method);
+	var url = "http://localhost:8000/" + method;
+	xhr.open(method, url);
 	xhr.send();
 }
 
