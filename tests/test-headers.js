@@ -1,4 +1,4 @@
-var sys = require("sys")
+var sys = require("util")
 	,assert = require("assert")
 	,XMLHttpRequest = require("../XMLHttpRequest").XMLHttpRequest
 	,xhr = new XMLHttpRequest()

@@ -12,7 +12,7 @@
  */
 
 var Url = require("url")
-	,sys = require("sys");
+	,sys = require("util");
 
 exports.XMLHttpRequest = function() {
 	/**
