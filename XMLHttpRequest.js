@@ -158,7 +158,7 @@ exports.XMLHttpRequest = function() {
 
 		// Default to port 80. If accessing localhost on another port be sure
 		// to use http://localhost:port/path
-		var port = url.port || 80;
+		var port = url.port || (ssl ? 443 : 80);
 		// Add query string if one is used
 		var uri = url.pathname + (url.search ? url.search : '');
 		
