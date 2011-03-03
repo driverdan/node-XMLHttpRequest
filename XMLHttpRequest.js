@@ -20,6 +20,7 @@ exports.XMLHttpRequest = function() {
 	 */
 	var self = this;
 	var http = require('http');
+	var https = require('https');
 
 	// Holds http.js objects
 	var client;
@@ -165,17 +166,6 @@ exports.XMLHttpRequest = function() {
 		// Set the Host header or the server may reject the request
 		this.setRequestHeader("Host", host);
 		
-		client = http.createClient(port, host, ssl);
-		
-		// Error checking
-		client.addListener('error', function (error) {
-			self.status = 503;
-			self.statusText = error;
-			self.responseText = error.stack;
-			setState(self.DONE);
-			// @todo throw error?
-		})
-
 		// Set content length header
 		if (settings.method == "GET" || settings.method == "HEAD") {
 			data = null;
@@ -186,37 +176,54 @@ exports.XMLHttpRequest = function() {
 				this.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 			}
 		}
-		
-		// Use the correct request method
-        request = client.request(settings.method, uri, headers);
 
-		// Send data to the server
-		if (data) {
-			request.write(data);
-		}
-		
-		request.addListener('response', function(resp) {
-			response = resp;
+      var doRequest;
+      if (ssl) doRequest = https.request;
+      else doRequest = http.request;
+
+      var options = {
+         host: host,
+         port: port,
+         path: uri,
+         method: settings.method,
+         headers: headers
+      };
+      var req = https.request(options, function(res) {
+         response = res;
 			response.setEncoding("utf8");
-			
-			setState(self.HEADERS_RECEIVED);
 
+			setState(self.HEADERS_RECEIVED);
 			self.status = response.statusCode;
-			
-			response.addListener("data", function(chunk) {
+
+         res.on('data', function(chunk) {
 				// Make sure there's some data
 				if (chunk) {
 					self.responseText += chunk;
 				}
 				setState(self.LOADING);
-			});
-	
-			response.addListener("end", function() {
-				setState(self.DONE);
-			});
-		});		
-		request.end();
+         });
+
+         res.on('end', function() {
+            setState(self.DONE);
+         });
+
+         res.on('error', function() {
+            self.handleError(error);
+         });
+      }).on('error', function(error) {
+         self.handleError(error);
+      });
+      req.write(data);
+      req.end();
+		
 	};
+
+   this.handleError = function(error) {
+      this.status = 503;
+      this.statusText = error;
+      this.responseText = error.stack;
+      setState(this.DONE);
+   };
 
 	/**
 	 * Aborts a request.
