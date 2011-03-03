@@ -143,7 +143,7 @@ exports.XMLHttpRequest = function() {
 		switch (url.protocol) {
 			case 'https:':
 				ssl = true;
-			// SSL & non-SSL both need host, no break here.
+				// SSL & non-SSL both need host, no break here.
 			case 'http:':
 				var host = url.hostname;
 				break;
@@ -177,53 +177,53 @@ exports.XMLHttpRequest = function() {
 			}
 		}
 
-      var doRequest;
-      if (ssl) doRequest = https.request;
-      else doRequest = http.request;
+		// Use the proper protocol
+		var doRequest = ssl ? https.request : http.request;
 
-      var options = {
-         host: host,
-         port: port,
-         path: uri,
-         method: settings.method,
-         headers: headers
-      };
-      var req = https.request(options, function(res) {
-         response = res;
+		var options = {
+			host: host,
+			port: port,
+			path: uri,
+			method: settings.method,
+			headers: headers
+		};
+		
+		var req = doRequest(options, function(res) {
+			response = res;
 			response.setEncoding("utf8");
 
 			setState(self.HEADERS_RECEIVED);
 			self.status = response.statusCode;
 
-         res.on('data', function(chunk) {
+			response.on('data', function(chunk) {
 				// Make sure there's some data
 				if (chunk) {
 					self.responseText += chunk;
 				}
 				setState(self.LOADING);
-         });
+			});
 
-         res.on('end', function() {
-            setState(self.DONE);
-         });
+			response.on('end', function() {
+				setState(self.DONE);
+			});
 
-         res.on('error', function() {
-            self.handleError(error);
-         });
-      }).on('error', function(error) {
-         self.handleError(error);
-      });
-      req.write(data);
-      req.end();
+			response.on('error', function() {
+				self.handleError(error);
+			});
+		}).on('error', function(error) {
+			self.handleError(error);
+		});
 		
+		req.write(data);
+		req.end();
 	};
 
-   this.handleError = function(error) {
-      this.status = 503;
-      this.statusText = error;
-      this.responseText = error.stack;
-      setState(this.DONE);
-   };
+	this.handleError = function(error) {
+		this.status = 503;
+		this.statusText = error;
+		this.responseText = error.stack;
+		setState(this.DONE);
+	};
 
 	/**
 	 * Aborts a request.
