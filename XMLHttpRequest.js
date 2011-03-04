@@ -214,7 +214,11 @@ exports.XMLHttpRequest = function() {
 			self.handleError(error);
 		});
 		
-		req.write(data);
+		// Node 0.4 and later won't accept empty data. Make sure it's needed.
+		if (data) {
+			req.write(data);
+		}
+		
 		req.end();
 	};
 
