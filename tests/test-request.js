@@ -14,7 +14,7 @@ var server = http.createServer(function (req, res) {
 	
 	res.writeHead(200, {
 		"Content-Type": "text/plain",
-		"Content-Length": body.length
+		"Content-Length": Buffer.byteLength(body)
 	});
 	// HEAD has no body
 	if (req.method != "HEAD") {

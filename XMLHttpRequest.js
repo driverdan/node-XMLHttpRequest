@@ -170,7 +170,7 @@ exports.XMLHttpRequest = function() {
 		if (settings.method == "GET" || settings.method == "HEAD") {
 			data = null;
 		} else if (data) {
-			this.setRequestHeader("Content-Length", data.length);
+			this.setRequestHeader("Content-Length", Buffer.byteLength(data));
 			
 			if (!headers["Content-Type"]) {
 				this.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");

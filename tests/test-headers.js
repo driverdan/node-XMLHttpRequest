@@ -12,7 +12,7 @@ var server = http.createServer(function (req, res) {
 	var body = "Hello World";
 	res.writeHead(200, {
 		"Content-Type": "text/plain",
-		"Content-Length": body.length
+		"Content-Length": Buffer.byteLength(body)
 	});
 	res.write("Hello World");
 	res.end();
