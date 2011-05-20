@@ -18,7 +18,7 @@ var server = http.createServer(function (req, res) {
 	});
 	// HEAD has no body
 	if (req.method != "HEAD") {
-		res.write("Hello World");
+		res.write(body);
 	}
 	res.end();
 	
@@ -30,7 +30,6 @@ var server = http.createServer(function (req, res) {
 
 // Test standard methods
 var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"];
-var curMethod = 0;
 
 function start(method) {
 	// Reset each time
@@ -57,4 +56,7 @@ function start(method) {
 	xhr.send();
 }
 
-start(methods[curMethod]);
+for (var i in methods) {
+	sys.puts("Testing " + methods[i]);
+	start(methods[i]);
+}
