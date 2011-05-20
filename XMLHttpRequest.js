@@ -165,6 +165,12 @@ exports.XMLHttpRequest = function() {
 		
 		// Set the Host header or the server may reject the request
 		this.setRequestHeader("Host", host);
+
+        // Set Basic Auth if necessary
+        if (settings.user) {
+            var authBuf = new Buffer(settings.user + ":" + settings.password);
+            headers["Authorization"] = "Basic " + authBuf.toString("base64");
+        }
 		
 		// Set content length header
 		if (settings.method == "GET" || settings.method == "HEAD") {
