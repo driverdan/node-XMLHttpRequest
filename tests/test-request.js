@@ -9,7 +9,7 @@ var server = http.createServer(function (req, res) {
 	// Check request method and URL
 	assert.equal(methods[curMethod], req.method);
 	assert.equal("/" + methods[curMethod], req.url);
-	
+
 	var body = (req.method != "HEAD" ? "Hello World" : "");
 	
 	res.writeHead(200, {
@@ -56,7 +56,7 @@ function start(method) {
 	xhr.send();
 }
 
-for (var i in methods) {
-	sys.puts("Testing " + methods[i]);
-	start(methods[i]);
+for (var curMethod in methods) {
+	sys.puts("Testing " + methods[curMethod]);
+	start(methods[curMethod]);
 }
