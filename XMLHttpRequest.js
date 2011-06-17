@@ -8,11 +8,13 @@
  *
  * @todo SSL Support
  * @author Dan DeFelippi <dan@driverdan.com>
+ * @contributor David Ellis <d.f.ellis@ieee.org>
  * @license MIT
  */
 
-var Url = require("url")
-	,sys = require("util");
+var Url = require("url"),
+	spawn = require("child_process").spawn,
+	fs = require('fs');
 
 exports.XMLHttpRequest = function() {
 	/**
@@ -185,10 +187,7 @@ exports.XMLHttpRequest = function() {
 				this.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 			}
 		}
-
-		// Use the proper protocol
-		var doRequest = ssl ? https.request : http.request;
-
+		
 		var options = {
 			host: host,
 			port: port,
@@ -196,39 +195,87 @@ exports.XMLHttpRequest = function() {
 			method: settings.method,
 			headers: headers
 		};
-		
-		var req = doRequest(options, function(res) {
-			response = res;
-			response.setEncoding("utf8");
 
-			setState(self.HEADERS_RECEIVED);
-			self.status = response.statusCode;
-
-			response.on('data', function(chunk) {
-				// Make sure there's some data
-				if (chunk) {
-					self.responseText += chunk;
-				}
-				setState(self.LOADING);
-			});
-
-			response.on('end', function() {
-				setState(self.DONE);
-			});
-
-			response.on('error', function() {
+		if(!settings.hasOwnProperty("async") || settings.async) { //Normal async path
+			// Use the proper protocol
+			var doRequest = ssl ? https.request : http.request;
+			
+			var req = doRequest(options, function(response) {
+				response.setEncoding("utf8");
+				
+				setState(self.HEADERS_RECEIVED);
+				self.status = response.statusCode;
+				
+				response.on('data', function(chunk) {
+					// Make sure there's some data
+					if (chunk) {
+						self.responseText += chunk;
+					}
+					setState(self.LOADING);
+				});
+				
+				response.on('end', function() {
+					setState(self.DONE);
+				});
+				
+				response.on('error', function(error) {
+					self.handleError(error);
+				});
+			}).on('error', function(error) {
 				self.handleError(error);
 			});
-		}).on('error', function(error) {
-			self.handleError(error);
-		});
-		
-		// Node 0.4 and later won't accept empty data. Make sure it's needed.
-		if (data) {
-			req.write(data);
+			
+			// Node 0.4 and later won't accept empty data. Make sure it's needed.
+			if (data) {
+				req.write(data);
+			}
+			
+			req.end();
+		} else { // Synchronous
+			// Create a temporary file for communication with the other Node process
+			var syncFile = ".node-xmlhttprequest-sync-" + process.pid;
+			fs.writeFileSync(syncFile, "", "utf8");
+			// The async request the other Node process executes
+			var execString = "var http = require('http'), https = require('https'), fs = require('fs');"
+				+ "var doRequest = http" + (ssl?"s":"") + ".request;"
+				+ "var options = " + JSON.stringify(options) + ";"
+				+ "var responseText = '';"
+				+ "var req = doRequest(options, function(response) {"
+				+ "response.setEncoding('utf8');"
+				+ "response.on('data', function(chunk) {"
+				+ "responseText += chunk;"
+				+ "});"
+				+ "response.on('end', function() {"
+				+ "fs.writeFileSync('" + syncFile + "', 'NODE-XMLHTTPREQUEST-STATUS:' + response.statusCode + ',' + responseText, 'utf8');"
+				+ "});"
+				+ "response.on('error', function(error) {"
+				+ "fs.writeFileSync('" + syncFile + "', 'NODE-XMLHTTPREQUEST-ERROR:' + JSON.stringify(error), 'utf8');"
+				+ "});"
+				+ "}).on('error', function(error) {"
+				+ "fs.writeFileSync('" + syncFile + "', 'NODE-XMLHTTPREQUEST-ERROR:' + JSON.stringify(error), 'utf8');"
+				+ "});"
+				+ (data ? "req.write('" + data.replace(/'/g, "\\'") + "');":"")
+				+ "req.end();";
+			// Start the other Node Process, executing this string
+			syncProc = spawn(process.argv[0], ["-e", execString]);
+			while((self.responseText = fs.readFileSync(syncFile, 'utf8')) == "") {
+				// Wait while the file is empty
+			}
+			// Kill the child process once the file has data
+			syncProc.stdin.end();
+			// Remove the temporary file
+			fs.unlinkSync(syncFile);
+			if(self.responseText.match(/^NODE-XMLHTTPREQUEST-ERROR:/)) {
+				// If the file returned an error, handle it
+				var errorObj = self.responseText.replace(/^NODE-XMLHTTPREQUEST-ERROR:/, "");
+				self.handleError(errorObj);
+			} else {
+				// If the file returned okay, parse its data and move to the DONE state
+				self.status = self.responseText.replace(/^NODE-XMLHTTPREQUEST-STATUS:([0-9]*),.*/, "$1");
+				self.responseText = self.responseText.replace(/^NODE-XMLHTTPREQUEST-STATUS:[0-9]*,(.*)/, "$1");
+				setState(self.DONE);
+			}
 		}
-		
-		req.end();
 	};
 
 	this.handleError = function(error) {
