@@ -54,7 +54,7 @@ exports.XMLHttpRequest = function() {
 	this.readyState = this.UNSENT;
 
 	// default ready state change handler in case one is not set or is set late
-	this.onreadystatechange = function() {};
+	this.onreadystatechange = null;
 
 	// Result & response
 	this.responseText = "";
@@ -255,6 +255,8 @@ exports.XMLHttpRequest = function() {
 	 */
 	var setState = function(state) {
 		self.readyState = state;
-		self.onreadystatechange();
+		if (typeof self.onreadystatechange === "function") {
+			self.onreadystatechange();
+		}
 	}
 };
