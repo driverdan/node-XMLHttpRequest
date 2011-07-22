@@ -105,7 +105,7 @@ exports.XMLHttpRequest = function() {
 	 */
 	this.getResponseHeader = function(header) {
 		if (this.readyState > this.OPENED && response.headers[header]) {
-			return header + ": " + response.headers[header];
+			return response.headers[header];
 		}
 		
 		return null;
@@ -200,7 +200,8 @@ exports.XMLHttpRequest = function() {
 			// Use the proper protocol
 			var doRequest = ssl ? https.request : http.request;
 			
-			var req = doRequest(options, function(response) {
+			var req = doRequest(options, function(resp) {
+				response = resp;
 				response.setEncoding("utf8");
 				
 				setState(self.HEADERS_RECEIVED);
@@ -305,5 +306,5 @@ exports.XMLHttpRequest = function() {
 		if (typeof self.onreadystatechange === "function") {
 			self.onreadystatechange();
 		}
-	}
+	};
 };
