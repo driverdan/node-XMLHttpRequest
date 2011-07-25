@@ -4,6 +4,9 @@ var sys = require("util")
 	,http = require("http")
 	,xhr;
 
+// Test standard methods
+var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"], curMethod;
+
 // Test server
 var server = http.createServer(function (req, res) {
 	// Check request method and URL
@@ -26,12 +29,10 @@ var server = http.createServer(function (req, res) {
 		this.close();
 		sys.puts("done");
 	}
-}).listen(8000);
-
-// Test standard methods
-var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"];
+}).listen(8000, function(){
 
 function start(method) {
+	sys.puts("Testing " + method);
 	// Reset each time
 	xhr = new XMLHttpRequest();
 	
@@ -52,11 +53,10 @@ function start(method) {
 	};
 	
 	var url = "http://localhost:8000/" + method;
-	xhr.open(method, url);
+	xhr.open(method, url, true);
 	xhr.send();
 }
 
-for (var curMethod in methods) {
-	sys.puts("Testing " + methods[curMethod]);
-	start(methods[curMethod]);
-}
+curMethod=0
+start(methods[curMethod]);
+});
