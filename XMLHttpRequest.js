@@ -138,7 +138,7 @@ exports.XMLHttpRequest = function() {
 			throw "INVALID_STATE_ERR: connection must be opened before send() is called";
 		}
 		
-		var ssl = false;
+		var ssl = false, local = false;
 		var url = Url.parse(settings.url);
 		
 		// Determine the server
@@ -149,7 +149,9 @@ exports.XMLHttpRequest = function() {
 			case 'http:':
 				var host = url.hostname;
 				break;
-			
+			case 'file:':
+				local = true;
+				break;
 			case undefined:
 			case '':
 				var host = "localhost";
@@ -159,6 +161,31 @@ exports.XMLHttpRequest = function() {
 				throw "Protocol not supported.";
 		}
 
+		if(local){
+			if(settings.method !== "GET"){
+				throw new Error('XMLHttpRequest: only GET method is supported');
+			}
+			if(settings.async){
+				fs.readFile(url.pathname, 'utf8', function(error, data){
+					if(error){
+						self.handleError(error);
+					}else{
+						self.status = 200;
+						self.responseText = data;
+						setState(self.DONE);
+					}
+				});
+			}else{
+				try{
+					this.responseText = fs.readFileSync(url.pathname, 'utf8');
+					this.status = 200;
+					setState(self.DONE);
+				}catch(e){
+					this.handleError(e);
+				}
+			}
+			return;
+		}
 		// Default to port 80. If accessing localhost on another port be sure
 		// to use http://localhost:port/path
 		var port = url.port || (ssl ? 443 : 80);
@@ -196,7 +223,7 @@ exports.XMLHttpRequest = function() {
 			headers: headers
 		};
 
-		if(!settings.hasOwnProperty("async") || settings.async) { //Normal async path
+		if(settings.async) { //Normal async path
 			// Use the proper protocol
 			var doRequest = ssl ? https.request : http.request;
 			
@@ -272,8 +299,9 @@ exports.XMLHttpRequest = function() {
 				self.handleError(errorObj);
 			} else {
 				// If the file returned okay, parse its data and move to the DONE state
-				self.status = self.responseText.replace(/^NODE-XMLHTTPREQUEST-STATUS:([0-9]*),.*/, "$1");
-				self.responseText = self.responseText.replace(/^NODE-XMLHTTPREQUEST-STATUS:[0-9]*,(.*)/, "$1");
+				var rt = self.responseText, comma=rt.indexOf(',');
+				self.status = parseInt(rt.substring(27,comma));
+				self.responseText = rt.substr(comma+1);
 				setState(self.DONE);
 			}
 		}

@@ -4,6 +4,16 @@ var sys = require("util")
 	,xhr = new XMLHttpRequest()
 	,http = require("http");
 
+xhr.onreadystatechange = function() {
+	if (this.readyState == 4) {
+		// Test getAllResponseHeaders()
+		var headers = "content-type: text/plain\r\ncontent-length: 11\r\nconnection: close";
+		assert.equal(headers, this.getAllResponseHeaders());
+		
+		sys.puts("done");
+	}
+};
+
 // Test server
 var server = http.createServer(function (req, res) {
 	// Test setRequestHeader
@@ -18,18 +28,8 @@ var server = http.createServer(function (req, res) {
 	res.end();
 	
 	this.close();
-}).listen(8000);
-
-xhr.onreadystatechange = function() {
-	if (this.readyState == 4) {
-		// Test getAllResponseHeaders()
-		var headers = "content-type: text/plain\r\ncontent-length: 11\r\nconnection: close";
-		assert.equal(headers, this.getAllResponseHeaders());
-		
-		sys.puts("done");
-	}
-};
-
-xhr.open("GET", "http://localhost:8000/");
+}).listen(8000, function(){
+xhr.open("GET", "http://localhost:8000/", 1);
 xhr.setRequestHeader("X-Test", "Foobar");
 xhr.send();
+});
