@@ -76,7 +76,7 @@ exports.XMLHttpRequest = function() {
 	this.open = function(method, url, async, user, password) {
 		settings = {
 			"method": method,
-			"url": url,
+			"url": url.toString(),
 			"async": async || true,
 			"user": user || null,
 			"password": password || null
