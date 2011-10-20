@@ -37,6 +37,9 @@ exports.XMLHttpRequest = function() {
 		"User-Agent": "node.js",
 		"Accept": "*/*",
 	};
+
+	// Send flag
+	var sendFlag = false;
 	
 	var headers = defaultHeaders;
 	
@@ -137,7 +140,11 @@ exports.XMLHttpRequest = function() {
 		if (this.readyState != this.OPENED) {
 			throw "INVALID_STATE_ERR: connection must be opened before send() is called";
 		}
-		
+
+		if (sendFlag) {
+			throw "INVALID_STATE_ERR: send has already been called";
+		}
+
 		var ssl = false;
 		var url = Url.parse(settings.url);
 		
@@ -199,8 +206,15 @@ exports.XMLHttpRequest = function() {
 		if(!settings.hasOwnProperty("async") || settings.async) { //Normal async path
 			// Use the proper protocol
 			var doRequest = ssl ? https.request : http.request;
+
+			sendFlag = true;
 			
-			var req = doRequest(options, function(resp) {
+			// As per spec, this is called here for historical reasons.
+			if (typeof self.onreadystatechange === "function") {
+				self.onreadystatechange();
+			}
+
+			request = doRequest(options, function(resp) {
 				response = resp;
 				response.setEncoding("utf8");
 				
@@ -212,11 +226,18 @@ exports.XMLHttpRequest = function() {
 					if (chunk) {
 						self.responseText += chunk;
 					}
-					setState(self.LOADING);
+					// Don't emit state changes if the connection has been aborted.
+					if (sendFlag) {
+						setState(self.LOADING);
+					}
 				});
 				
 				response.on('end', function() {
-					setState(self.DONE);
+					if (sendFlag) {
+						// Discard the 'end' event if the connection has been aborted
+						setState(self.DONE);
+						sendFlag = false;
+					}
 				});
 				
 				response.on('error', function(error) {
@@ -228,10 +249,10 @@ exports.XMLHttpRequest = function() {
 			
 			// Node 0.4 and later won't accept empty data. Make sure it's needed.
 			if (data) {
-				req.write(data);
+				request.write(data);
 			}
 			
-			req.end();
+			request.end();
 		} else { // Synchronous
 			// Create a temporary file for communication with the other Node process
 			var syncFile = ".node-xmlhttprequest-sync-" + process.pid;
@@ -291,9 +312,21 @@ exports.XMLHttpRequest = function() {
 	 */
 	this.abort = function() {
 		headers = defaultHeaders;
-		this.readyState = this.UNSENT;
 		this.responseText = "";
 		this.responseXML = "";
+
+		if (request) {
+			request.abort();
+			request = null;
+		}
+
+		if (this.readyState !== this.UNSENT
+				&& (this.readyState !== this.OPENED || sendFlag)
+				&& this.readyState !== this.DONE) {
+			sendFlag = false;
+			setState(this.DONE);
+		}
+		this.readyState = this.UNSENT;
 	};
 	
 	/**
