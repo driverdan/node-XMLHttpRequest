@@ -26,6 +26,10 @@ xhr.onreadystatechange = function() {
     var headers = "content-type: text/plain\r\ncontent-length: 11\r\nconnection: close";
     assert.equal(headers, this.getAllResponseHeaders());
 
+    // Test aborted getAllResponseHeaders
+    this.abort();
+    assert.equal("", this.getAllResponseHeaders());
+
     sys.puts("done");
   }
 };
