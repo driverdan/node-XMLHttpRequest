@@ -115,7 +115,10 @@ exports.XMLHttpRequest = function() {
    * @return string Text of the header or null if it doesn't exist.
    */
   this.getResponseHeader = function(header) {
-    if (this.readyState > this.OPENED && response.headers[header]) {
+    if (this.readyState > this.OPENED
+      && response.headers[header]
+      && !errorFlag
+    ) {
       return response.headers[header];
     }
 
@@ -128,7 +131,7 @@ exports.XMLHttpRequest = function() {
    * @return string 
    */
   this.getAllResponseHeaders = function() {
-    if (this.readyState < this.HEADERS_RECEIVED) {
+    if (this.readyState < this.HEADERS_RECEIVED && !errorFlag) {
       throw "INVALID_STATE_ERR: Headers have not been received.";
     }
     var result = "";
