@@ -131,8 +131,8 @@ exports.XMLHttpRequest = function() {
    * @return string 
    */
   this.getAllResponseHeaders = function() {
-    if (this.readyState < this.HEADERS_RECEIVED && !errorFlag) {
-      throw "INVALID_STATE_ERR: Headers have not been received.";
+    if (this.readyState < this.HEADERS_RECEIVED || errorFlag) {
+      return "";
     }
     var result = "";
 
