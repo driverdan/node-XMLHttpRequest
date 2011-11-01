@@ -211,10 +211,15 @@ exports.XMLHttpRequest = function() {
       headers: headers
     };
 
-    if(!settings.hasOwnProperty("async") || settings.async) { //Normal async path
+    // Reset error flag
+    errorFlag = false;
+
+    // Handle async requests
+    if(!settings.hasOwnProperty("async") || settings.async) {
       // Use the proper protocol
       var doRequest = ssl ? https.request : http.request;
 
+      // Request is being sent, set send flag
       sendFlag = true;
 
       // As per spec, this is called here for historical reasons.
@@ -222,6 +227,7 @@ exports.XMLHttpRequest = function() {
         self.onreadystatechange();
       }
 
+      // Create the request
       request = doRequest(options, function(resp) {
         response = resp;
         response.setEncoding("utf8");
