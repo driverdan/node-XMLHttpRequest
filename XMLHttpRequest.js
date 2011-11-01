@@ -318,6 +318,7 @@ exports.XMLHttpRequest = function() {
     this.status = 503;
     this.statusText = error;
     this.responseText = error.stack;
+    errorFlag = true;
     setState(this.DONE);
   };
 
