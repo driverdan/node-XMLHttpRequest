@@ -29,11 +29,13 @@ xhr.onreadystatechange = function() {
     // Test aborted getAllResponseHeaders
     this.abort();
     assert.equal("", this.getAllResponseHeaders());
+    assert.equal(null, this.getResponseHeader("Connection"));
 
     sys.puts("done");
   }
 };
 
+assert.equal(null, xhr.getResponseHeader("Content-Type"));
 xhr.open("GET", "http://localhost:8000/");
 xhr.setRequestHeader("X-Test", "Foobar");
 xhr.send();
