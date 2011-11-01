@@ -82,7 +82,7 @@ exports.XMLHttpRequest = function() {
     settings = {
       "method": method,
       "url": url.toString(),
-      "async": async || true,
+      "async": (typeof async !== "boolean" ? true : async),
       "user": user || null,
       "password": password || null
     };
