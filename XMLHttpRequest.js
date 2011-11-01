@@ -326,14 +326,16 @@ exports.XMLHttpRequest = function() {
    * Aborts a request.
    */
   this.abort = function() {
-    headers = defaultHeaders;
-    this.responseText = "";
-    this.responseXML = "";
-
     if (request) {
       request.abort();
       request = null;
     }
+
+    headers = defaultHeaders;
+    this.responseText = "";
+    this.responseXML = "";
+
+    errorFlag = true;
 
     if (this.readyState !== this.UNSENT
         && (this.readyState !== this.OPENED || sendFlag)
