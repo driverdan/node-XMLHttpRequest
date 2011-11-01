@@ -40,6 +40,8 @@ exports.XMLHttpRequest = function() {
 
   // Send flag
   var sendFlag = false;
+  // Error flag, used when errors occur or abort is called
+  var errorFlag = false;
 
   var headers = defaultHeaders;
 
@@ -97,6 +99,12 @@ exports.XMLHttpRequest = function() {
    * @param string value Header value
    */
   this.setRequestHeader = function(header, value) {
+    if (this.readyState != this.OPENED) {
+      throw "INVALID_STATE_ERR: setRequestHeader can only be called when state is OPEN";
+    }
+    if (sendFlag) {
+      throw "INVALID_STATE_ERR: send flag is true";
+    }
     headers[header] = value;
   };
 
