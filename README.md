@@ -10,7 +10,7 @@ Here's how to include the module in your project and use as the browser-based XH
 	var XMLHttpRequest = require("XMLHttpRequest").XMLHttpRequest;
 	var xhr = new XMLHttpRequest();
 
-Refer to W3C specs for XHR methods.
+Refer to [W3C specs](http://www.w3.org/TR/XMLHttpRequest/) for XHR methods.
 
 ## Supports ##
 
