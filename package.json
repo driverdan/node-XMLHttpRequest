@@ -1,6 +1,6 @@
 { "name" : "xmlhttprequest"
 , "description" : "XMLHttpRequest for Node"
-, "version" : "1.3"
+, "version" : "1.3.0"
 , "author" : "Dan DeFelippi"
 , "licenses" :
   [ { "type" : "MIT"
