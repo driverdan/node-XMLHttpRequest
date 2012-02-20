@@ -12,7 +12,8 @@ var server = http.createServer(function (req, res) {
   var body = "Hello World";
   res.writeHead(200, {
     "Content-Type": "text/plain",
-    "Content-Length": Buffer.byteLength(body)
+    "Content-Length": Buffer.byteLength(body),
+    "Connection": "close"
   });
   res.write("Hello World");
   res.end();
@@ -25,6 +26,12 @@ xhr.onreadystatechange = function() {
     // Test getAllResponseHeaders()
     var headers = "content-type: text/plain\r\ncontent-length: 11\r\nconnection: close";
     assert.equal(headers, this.getAllResponseHeaders());
+
+    // Test case insensitivity
+    assert.equal('text/plain', this.getResponseHeader('Content-Type'));
+    assert.equal('text/plain', this.getResponseHeader('Content-type'));
+    assert.equal('text/plain', this.getResponseHeader('content-Type'));
+    assert.equal('text/plain', this.getResponseHeader('content-type'));
 
     // Test aborted getAllResponseHeaders
     this.abort();
