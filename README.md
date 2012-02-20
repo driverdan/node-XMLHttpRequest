@@ -7,7 +7,7 @@ This can be used with JS designed for browsers to improve reuse of code and allo
 ## Usage ##
 Here's how to include the module in your project and use as the browser-based XHR object.
 
-	var XMLHttpRequest = require("XMLHttpRequest").XMLHttpRequest;
+	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 	var xhr = new XMLHttpRequest();
 
 Refer to [W3C specs](http://www.w3.org/TR/XMLHttpRequest/) for XHR methods.
