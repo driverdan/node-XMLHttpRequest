@@ -30,6 +30,7 @@ var server = http.createServer(function (req, res) {
 
 // Test standard methods
 var methods = ["GET", "POST", "HEAD", "PUT", "DELETE"];
+var curMethod = 0;
 
 function start(method) {
   // Reset each time
@@ -46,6 +47,7 @@ function start(method) {
       curMethod++;
 
       if (curMethod < methods.length) {
+        sys.puts("Testing " + methods[curMethod]);
         start(methods[curMethod]);
       }
     }
@@ -56,7 +58,5 @@ function start(method) {
   xhr.send();
 }
 
-for (var curMethod in methods) {
-  sys.puts("Testing " + methods[curMethod]);
-  start(methods[curMethod]);
-}
+sys.puts("Testing " + methods[curMethod]);
+start(methods[curMethod]);

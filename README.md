@@ -32,7 +32,7 @@ the W3C spec.
 ## Supports ##
 
 * Async and synchronous requests
-* GET, POST, and PUT requests
+* GET, POST, PUT, and DELETE requests
 * All native methods (open, send, abort, getRequestHeader,
   getAllRequestHeaders)
 * Requests to all domains
@@ -42,5 +42,4 @@ the W3C spec.
 * Add basic authentication
 * Additional unit tests
 * Possibly move from http to tcp for more flexibility
-* DELETE requests aren't working
 * XML parsing
