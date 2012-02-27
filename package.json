@@ -6,7 +6,7 @@
     "name": "Dan DeFelippi"
     , "url": "http://driverdan.com"
   }
-, "keywords" ["xhr", "ajax"]
+, "keywords": ["xhr", "ajax"]
 , "licenses": [{
     "type": "MIT"
     , "url": "http://creativecommons.org/licenses/MIT/"
