@@ -5,6 +5,7 @@ var sys = require("util")
   ,http = require("http");
 
 // Test server
+/*
 var server = http.createServer(function (req, res) {
   var body = "Hello World";
   res.writeHead(200, {
@@ -17,27 +18,62 @@ var server = http.createServer(function (req, res) {
 
   this.close();
 }).listen(8000);
+*/
 
 // Test request methods that aren't allowed
 try {
   xhr.open("TRACK", "http://localhost:8000/");
-} catch(e) {
-  console.log("Exception for TRACK", e);
-}
+  console.log("ERROR: TRACK should have thrown exception");
+} catch(e) {}
 try {
   xhr.open("TRACE", "http://localhost:8000/");
-} catch(e) {
-  console.log("Exception for TRACE", e);
-}
+  console.log("ERROR: TRACE should have thrown exception");
+} catch(e) {}
 try {
   xhr.open("CONNECT", "http://localhost:8000/");
-} catch(e) {
-  console.log("Exception for CONNECT", e);
-}
+  console.log("ERROR: CONNECT should have thrown exception");
+} catch(e) {}
 // Test valid request method
 try {
   xhr.open("GET", "http://localhost:8000/");
-  console.log("GET request allowed");
 } catch(e) {
-  console.log("Invalid exception for GET", e);
+  console.log("ERROR: Invalid exception for GET", e);
 }
+
+// Test forbidden headers
+var forbiddenRequestHeaders = [
+  "accept-charset",
+  "accept-encoding",
+  "access-control-request-headers",
+  "access-control-request-method",
+  "connection",
+  "content-length",
+  "content-transfer-encoding",
+  "cookie",
+  "cookie2",
+  "date",
+  "expect",
+  "host",
+  "keep-alive",
+  "origin",
+  "referer",
+  "te",
+  "trailer",
+  "transfer-encoding",
+  "upgrade",
+  "user-agent",
+  "via"
+];
+
+for (var i in forbiddenRequestHeaders) {
+  try {
+    xhr.setRequestHeader(forbiddenRequestHeaders[i], "Test");
+    console.log("ERROR: " + forbiddenRequestHeaders[i] + " should have thrown exception");
+  } catch(e) {
+  }
+}
+
+// Try valid header
+xhr.setRequestHeader("X-Foobar", "Test");
+
+console.log("Done");
