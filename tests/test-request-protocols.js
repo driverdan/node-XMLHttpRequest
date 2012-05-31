@@ -1,7 +1,7 @@
 var sys = require("util")
-  ,assert = require("assert")
-  ,XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
-  ,xhr;
+  , assert = require("assert")
+  , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
+  , xhr;
 
 xhr = new XMLHttpRequest();
 
