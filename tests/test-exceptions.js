@@ -1,24 +1,7 @@
 var sys = require("util")
-  ,assert = require("assert")
-  ,XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
-  ,xhr = new XMLHttpRequest()
-  ,http = require("http");
-
-// Test server
-/*
-var server = http.createServer(function (req, res) {
-  var body = "Hello World";
-  res.writeHead(200, {
-    "Content-Type": "text/plain",
-    "Content-Length": Buffer.byteLength(body),
-    "Connection": "close"
-  });
-  res.write("Hello World");
-  res.end();
-
-  this.close();
-}).listen(8000);
-*/
+  , assert = require("assert")
+  , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
+  , xhr = new XMLHttpRequest();
 
 // Test request methods that aren't allowed
 try {

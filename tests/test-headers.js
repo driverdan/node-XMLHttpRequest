@@ -1,8 +1,8 @@
 var sys = require("util")
-  ,assert = require("assert")
-  ,XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
-  ,xhr = new XMLHttpRequest()
-  ,http = require("http");
+  , assert = require("assert")
+  , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
+  , xhr = new XMLHttpRequest()
+  , http = require("http");
 
 // Test server
 var server = http.createServer(function (req, res) {
