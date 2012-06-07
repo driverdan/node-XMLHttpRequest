@@ -49,7 +49,10 @@ xhr.onreadystatechange = function() {
 assert.equal(null, xhr.getResponseHeader("Content-Type"));
 try {
   xhr.open("GET", "http://localhost:8000/");
+  // Valid header
   xhr.setRequestHeader("X-Test", "Foobar");
+  // Invalid header
+  xhr.setRequestHeader("Content-Length", 0);
   // Test getRequestHeader
   assert.equal("Foobar", xhr.getRequestHeader("X-Test"));
   xhr.send();
