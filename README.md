@@ -1,7 +1,5 @@
 # node-XMLHttpRequest #
 
-this is a fork with support for disabling header checking. 
-
 node-XMLHttpRequest is a wrapper for the built-in http client to emulate the
 browser XMLHttpRequest object.
 
