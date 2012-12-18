@@ -30,6 +30,10 @@ well. Major version numbers indicate significant core code changes.
 Minor versions indicate minor core code changes or better conformity to
 the W3C spec.
 
+## License ##
+
+MIT license. See LICENSE for full details.
+
 ## Supports ##
 
 * Async and synchronous requests
