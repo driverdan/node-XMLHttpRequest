@@ -6,14 +6,13 @@ var sys = require("util")
 
 // Test server
 var server = http.createServer(function (req, res) {
-
-  if(req.url === '/redirectingResource'){
-    res.writeHead(307, {'Location': 'http://localhost:8000/'})
-    res.end()
-    return
+  if (req.url === '/redirectingResource') {
+    res.writeHead(307, {'Location': 'http://localhost:8000/'});
+    res.end();
+    return;
   }
-  
-  assert.equal(req.method, 'POST')
+
+  assert.equal(req.method, 'POST');
 
   var body = "Hello World";
   res.writeHead(200, {
@@ -30,8 +29,8 @@ var server = http.createServer(function (req, res) {
 
 xhr.onreadystatechange = function() {
   if (this.readyState == 4) {
-  	assert.equal(xhr.getRequestHeader('Location'), '')
-  	assert.equal(xhr.responseText, "Hello World")
+    assert.equal(xhr.getRequestHeader('Location'), '');
+    assert.equal(xhr.responseText, "Hello World");
     sys.puts("done");
   }
 };
