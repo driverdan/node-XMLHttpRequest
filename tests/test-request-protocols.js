@@ -8,7 +8,6 @@ xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
   if (this.readyState == 4) {
     assert.equal("Hello World", this.responseText);
-    this.close();
     runSync();
   }
 };
@@ -25,7 +24,6 @@ var runSync = function() {
   xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       assert.equal("Hello World", this.responseText);
-      this.close();
       sys.puts("done");
     }
   };
