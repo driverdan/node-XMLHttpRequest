@@ -24,4 +24,5 @@
   , "example": "./example"
   }
 , "main": "./lib/XMLHttpRequest.js"
+, "browser": "./lib/browser.js"
 }
