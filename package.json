@@ -23,5 +23,10 @@
     "lib": "./lib"
   , "example": "./example"
   }
+, "devDependencies": {
+    "formidable": "^1.0.15"
+  , "form-data": "^0.1.4"
+  }
 , "main": "./lib/XMLHttpRequest.js"
 }
+
