@@ -1,3 +1,11 @@
+## What does this fork accomplish? ##
+
+This fork adds-on the ability to specify a timeout and callback for the NodeJS http/https requests.
+
+Its a bit tricky as `xhr.onTimeoutAfterOpen(20000, function(){...});` should only be called after `xhr.open(...);` so keep that in mind.
+
+I wish there was some trigger to automatically merge the original repo's non-conflicting changes and keep this repo up-to-date but in the absence of such automation, I'll do my best to keep it updated. https://help.github.com/articles/syncing-a-fork
+
 # node-XMLHttpRequest #
 
 node-XMLHttpRequest is a wrapper for the built-in http client to emulate the
