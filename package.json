@@ -16,6 +16,9 @@
   "engines": {
     "node": ">=0.4.0"
   },
+  "dependencies": {
+    "xmldom": ">= 0.1.19"
+  },
   "directories": {
     "lib": "./lib",
     "example": "./example"
