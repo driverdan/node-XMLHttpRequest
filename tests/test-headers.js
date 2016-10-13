@@ -56,12 +56,16 @@ try {
   xhr.open("GET", "http://localhost:8000/");
   // Valid header
   xhr.setRequestHeader("X-Test", "Foobar");
+  xhr.setRequestHeader("X-Test2", "Foobar1");
+  xhr.setRequestHeader("X-Test2", "Foobar2");
   // Invalid header
   xhr.setRequestHeader("Content-Length", 0);
   // Allowed header outside of specs
   xhr.setRequestHeader("user-agent", "node-XMLHttpRequest-test");
   // Test getRequestHeader
   assert.equal("Foobar", xhr.getRequestHeader("X-Test"));
+  assert.equal("Foobar", xhr.getRequestHeader("x-tEST"));
+  assert.equal("Foobar1, Foobar2", xhr.getRequestHeader("x-test2"));
   // Test invalid header
   assert.equal("", xhr.getRequestHeader("Content-Length"));
 

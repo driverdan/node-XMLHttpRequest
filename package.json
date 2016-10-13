@@ -1,16 +1,13 @@
 {
   "name": "xmlhttprequest",
   "description": "XMLHttpRequest for Node",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "author": {
     "name": "Dan DeFelippi",
     "url": "http://driverdan.com"
   },
   "keywords": ["xhr", "ajax"],
-  "licenses": [{
-    "type": "MIT",
-    "url": "http://creativecommons.org/licenses/MIT/"
-  }],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/driverdan/node-XMLHttpRequest.git"
