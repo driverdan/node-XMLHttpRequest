@@ -30,7 +30,7 @@ xhr.onreadystatechange = function() {
     assert.equal(xhr.status, 200);
     assert.equal(xhr.getRequestHeader('Location'), '');
     assert.equal(xhr.responseText, "Hello World");
-    sys.puts("done");
+    console.log("done");
   }
 };
 
