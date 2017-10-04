@@ -1,4 +1,4 @@
-var sys = require("util")
+var
   , assert = require("assert")
   , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
   , xhr = new XMLHttpRequest();
@@ -10,4 +10,4 @@ assert.equal(2, xhr.HEADERS_RECEIVED);
 assert.equal(3, xhr.LOADING);
 assert.equal(4, xhr.DONE);
 
-sys.puts("done");
+console.log("test-constants done");

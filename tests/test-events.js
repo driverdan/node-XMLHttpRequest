@@ -1,8 +1,8 @@
-var sys = require("util")
-  , assert = require("assert")
+var assert = require("assert")
   , http = require("http")
   , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
   , xhr;
+
 
 // Test server
 var server = http.createServer(function (req, res) {
@@ -20,9 +20,11 @@ var server = http.createServer(function (req, res) {
   assert.equal(onreadystatechange, true);
   assert.equal(readystatechange, true);
   assert.equal(removed, true);
-  sys.puts("done");
+  console.log("test-events done");
   this.close();
 }).listen(8000);
+
+
 
 xhr = new XMLHttpRequest();
 

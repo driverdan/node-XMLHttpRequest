@@ -59,4 +59,4 @@ for (var i in forbiddenRequestHeaders) {
 // Try valid header
 xhr.setRequestHeader("X-Foobar", "Test");
 
-console.log("Done");
+console.log("test-exceptions Done");

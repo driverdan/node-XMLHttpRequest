@@ -1,5 +1,4 @@
-var sys = require("util")
-  , assert = require("assert")
+var assert = require("assert")
   , XMLHttpRequest = require("../lib/XMLHttpRequest").XMLHttpRequest
   , xhr = new XMLHttpRequest()
   , http = require("http");
@@ -47,7 +46,7 @@ xhr.onreadystatechange = function() {
     assert.equal("", this.getAllResponseHeaders());
     assert.equal(null, this.getResponseHeader("Connection"));
 
-    sys.puts("done");
+    console.log("test-headers doneeeee");
   }
 };
 
