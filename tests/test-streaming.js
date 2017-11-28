@@ -12,7 +12,7 @@ function completeResponse(res,server,body) {
   assert.equal(readystatechange, true);
   assert.equal(removed, true);
   assert.equal(loadCount, body.length);
-  sys.puts("done");
+  console.log("test-streaming done");
   server.close();
 }
 function push(res,piece) {
@@ -26,7 +26,7 @@ var server = http.createServer(function (req, res) {
     "Content-Type": "text/plain",
     "Content-Length": Buffer.byteLength(body.join(""))
   });
-  
+
   var nextPiece = 0;
   var self = this;
   var interval = setInterval(function() {
