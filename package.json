@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git://github.com/driverdan/node-XMLHttpRequest.git"
   },
+  "browser": "./lib/browser.js",
   "bugs": "http://github.com/driverdan/node-XMLHttpRequest/issues",
   "engines": {
     "node": ">=0.4.0"
