@@ -41,6 +41,7 @@ MIT license. See LICENSE for full details.
 * All spec methods (open, send, abort, getRequestHeader,
   getAllRequestHeaders, event methods)
 * Requests to all domains
+* XML parsing
 
 ## Known Issues / Missing Features ##
 
@@ -52,4 +53,3 @@ page](https://github.com/driverdan/node-XMLHttpRequest/issues).
 * Synchronous requests freeze node while waiting for response (But that's what you want, right? Stick with async!).
 * Some events are missing, such as abort
 * Cookies aren't persisted between requests
-* Missing XML support
