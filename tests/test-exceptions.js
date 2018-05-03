@@ -44,15 +44,14 @@ var forbiddenRequestHeaders = [
   "trailer",
   "transfer-encoding",
   "upgrade",
-  "user-agent",
   "via"
 ];
 
 for (var i in forbiddenRequestHeaders) {
   try {
-    xhr.setRequestHeader(forbiddenRequestHeaders[i], "Test");
-    console.log("ERROR: " + forbiddenRequestHeaders[i] + " should have thrown exception");
+    assert.equal(xhr.setRequestHeader(forbiddenRequestHeaders[i], "Test"), false);
   } catch(e) {
+    console.log("ERROR: Exception raised", e);
   }
 }
 
