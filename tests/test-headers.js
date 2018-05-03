@@ -61,7 +61,7 @@ try {
   // Invalid header
   xhr.setRequestHeader("Content-Length", 0);
   // Allowed header outside of specs
-  xhr.setRequestHeader("user-agent", "node-XMLHttpRequest-test");
+  xhr.setRequestHeader("User-Agent", "node-XMLHttpRequest-test");
   // Test getRequestHeader
   assert.equal("Foobar", xhr.getRequestHeader("X-Test"));
   assert.equal("Foobar", xhr.getRequestHeader("x-tEST"));
