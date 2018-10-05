@@ -32,7 +32,7 @@ the W3C spec.
 
 ## License ##
 
-MIT license. See LICENSE for full details.
+MIT license. See LICENSE for complete details.
 
 ## Supports ##
 
