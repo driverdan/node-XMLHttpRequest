@@ -1,14 +1,16 @@
-const assert = require('assert')
+const chai = require('chai')
+const expect = chai.expect
 
 const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
-
 const xhr = new XMLHttpRequest()
 
-// Test constant values
-assert.strictEqual(0, xhr.UNSENT)
-assert.strictEqual(1, xhr.OPENED)
-assert.strictEqual(2, xhr.HEADERS_RECEIVED)
-assert.strictEqual(3, xhr.LOADING)
-assert.strictEqual(4, xhr.DONE)
-
-console.log('done')
+describe('XMLHttpRequest constants', () => {
+  it('should return the value defined in the specification', () => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+    expect(xhr.UNSENT).to.equal(0)
+    expect(xhr.OPENED).to.equal(1)
+    expect(xhr.HEADERS_RECEIVED).to.equal(2)
+    expect(xhr.LOADING).to.equal(3)
+    expect(xhr.DONE).to.equal(4)
+  })
+})
