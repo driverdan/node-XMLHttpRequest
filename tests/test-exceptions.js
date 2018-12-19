@@ -1,24 +1,26 @@
+const assert = require('assert')
+
 const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
 const xhr = new XMLHttpRequest()
 
 // Test request methods that aren't allowed
 try {
   xhr.open('TRACK', 'http://localhost:8000/')
-  console.log('ERROR: TRACK should have thrown exception')
+  assert.fail('ERROR: TRACK should have thrown exception')
 } catch (e) {}
 try {
   xhr.open('TRACE', 'http://localhost:8000/')
-  console.log('ERROR: TRACE should have thrown exception')
+  assert.fail('ERROR: TRACE should have thrown exception')
 } catch (e) {}
 try {
   xhr.open('CONNECT', 'http://localhost:8000/')
-  console.log('ERROR: CONNECT should have thrown exception')
+  assert.fail('ERROR: CONNECT should have thrown exception')
 } catch (e) {}
 // Test valid request method
 try {
   xhr.open('GET', 'http://localhost:8000/')
 } catch (e) {
-  console.log('ERROR: Invalid exception for GET', e)
+  assert.fail('ERROR: Invalid exception for GET - Error: ' + e.message)
 }
 
 // Test forbidden headers
@@ -46,10 +48,12 @@ const forbiddenRequestHeaders = [
   'via'
 ]
 
-for (var i in forbiddenRequestHeaders) {
+for (let i in forbiddenRequestHeaders) {
   try {
-    xhr.setRequestHeader(forbiddenRequestHeaders[i], 'Test')
-    console.log('ERROR: ' + forbiddenRequestHeaders[i] + ' should have thrown exception')
+    const headerKey = forbiddenRequestHeaders[i]
+    xhr.setRequestHeader(headerKey, 'Test')
+    // should ignore forbidden request headers and log a warning
+    assert.strictEqual(xhr.headers[headerKey], undefined)
   } catch (e) {
   }
 }
