@@ -1,7 +1,7 @@
 {
-  "name": "xmlhttprequest2",
-  "description": "XMLHttpRequest for Node",
-  "version": "2.0.0",
+  "name": "unxhr",
+  "description": "Synchronous and asynchronous XMLHttpRequest for Node",
+  "version": "1.0.0",
   "files": [
     "lib"
   ],
@@ -10,7 +10,7 @@
     "lint": "standard tests/**.js lib/**.js example/**.js"
   },
   "authors": [
-    "Dan DeFelippi (http://driverdan.com",
+    "Dan DeFelippi (http://driverdan.com)",
     "Guillaume Grossetie (https://github.com/mogztter)"
   ],
   "keywords": [
@@ -22,13 +22,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mogztter/node-XMLHttpRequest.git"
+    "url": "git://github.com/mogztter/unxhr.git"
   },
   "browser": {
     "fs": false,
     "child_process": false
   },
-  "bugs": "http://github.com/mogztter/node-XMLHttpRequest/issues",
+  "bugs": "http://github.com/mogztter/unxhr/issues",
   "engines": {
     "node": ">=8.11"
   },
