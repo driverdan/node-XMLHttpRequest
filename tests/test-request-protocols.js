@@ -5,7 +5,7 @@ const expect = chai.expect
 const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
 
 describe('XMLHttpRequest protocols', () => {
-  const url = `file://${__dirname}/testdata.txt`
+  const url = `file://${__dirname}/text.txt`
   it('should get the resource asynchronously from the file:// protocol', async () => {
     const result = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()

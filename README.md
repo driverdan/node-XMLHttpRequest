@@ -1,51 +1,36 @@
-# node-XMLHttpRequest #
+> XMLHttpRequest Level 2 for Node.js
 
-node-XMLHttpRequest is a wrapper for the built-in http client to emulate the
-browser XMLHttpRequest object.
+[![Build Status: Linux](https://travis-ci.org/Mogztter/node-XMLHttpRequest.svg?branch=master)](https://travis-ci.org/Mogztter/node-XMLHttpRequest)
 
-This can be used with JS designed for browsers to improve reuse of code and
-allow the use of existing libraries.
+XMLHttpRequest is a wrapper of the built-in `http` client to emulate the browser `XMLHttpRequest` object.
 
-Note: This library currently conforms to [XMLHttpRequest 1](http://www.w3.org/TR/XMLHttpRequest/). Version 2.0 will target [XMLHttpRequest Level 2](http://www.w3.org/TR/XMLHttpRequest2/).
+**Important:** This library is a fork of [https://github.com/driverdan/node-XMLHttpRequest](https://github.com/driverdan/node-XMLHttpRequest).
+It was created to be compliant with [XMLHttpRequest Level 2](http://www.w3.org/TR/XMLHttpRequest2/).
 
-## Usage ##
+## Highlights
 
-Here's how to include the module in your project and use as the browser-based
-XHR object.
+- Dependency free
+- Asynchronous and synchronous requests
+- `GET`, `POST`, `PUT`, and `DELETE` requests
+- Binary data using JavaScript typed arrays
+- Follows redirects
+- Handles `file://` protocol
 
-	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-	var xhr = new XMLHttpRequest();
+## Usage
 
-Note: use the lowercase string "xmlhttprequest" in your require(). On
-case-sensitive systems (eg Linux) using uppercase letters won't work.
+Here's how to include the module in your project and use as the browser-based XHR object.
 
-## Versions ##
+```js
+const XMLHttpRequest = require('xmlhttprequest2').XMLHttpRequest
+const xhr = new XMLHttpRequest()
+```
 
-Prior to 1.4.0 version numbers were arbitrary. From 1.4.0 on they conform to
-the standard major.minor.bugfix. 1.x shouldn't necessarily be considered
-stable just because it's above 0.x.
+Note: use the lowercase string `'xmlhttprequest2'` in your require().
+On case-sensitive systems (eg. Linux) using uppercase letters won't work.
 
-Since the XMLHttpRequest API is stable this library's API is stable as
-well. Major version numbers indicate significant core code changes.
-Minor versions indicate minor core code changes or better conformity to
-the W3C spec.
+## Known Issues / Missing Features
 
-## License ##
-
-MIT license. See LICENSE for full details.
-
-## Supports ##
-
-* Async and synchronous requests
-* GET, POST, PUT, and DELETE requests
-* All spec methods (open, send, abort, getRequestHeader,
-  getAllRequestHeaders, event methods)
-* Requests to all domains
-
-## Known Issues / Missing Features ##
-
-For a list of open issues or to report your own visit the [github issues
-page](https://github.com/driverdan/node-XMLHttpRequest/issues).
+For a list of open issues or to report your own visit the [github issues page](https://github.com/Mogztter/node-XMLHttpRequest/issues).
 
 * Local file access may have unexpected results for non-UTF8 files
 * Synchronous requests don't set headers properly
@@ -53,3 +38,7 @@ page](https://github.com/driverdan/node-XMLHttpRequest/issues).
 * Some events are missing, such as abort
 * Cookies aren't persisted between requests
 * Missing XML support
+
+## License
+
+MIT license. See LICENSE for full details.
