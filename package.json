@@ -1,5 +1,5 @@
 {
-  "name": "xmlhttprequest",
+  "name": "@aelfqueen/xmlhttprequest",
   "description": "XMLHttpRequest for Node",
   "version": "1.8.1",
   "author": {
