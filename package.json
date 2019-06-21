@@ -1,19 +1,19 @@
 {
-  "name": "xmlhttprequest",
+  "name": "@aelfqueen/xmlhttprequest",
   "description": "XMLHttpRequest for Node",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "author": {
-    "name": "Dan DeFelippi",
-    "url": "http://driverdan.com"
+    "name": "Dan DeFelippi, hzz780",
+    "url": "http://driverdan.com, https://github.com/hzz780/node-XMLHttpRequest"
   },
   "keywords": ["xhr", "ajax"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/driverdan/node-XMLHttpRequest.git"
+    "url": "git://github.com/hzz780/node-XMLHttpRequest.git"
   },
   "browser": "./lib/browser.js",
-  "bugs": "http://github.com/driverdan/node-XMLHttpRequest/issues",
+  "bugs": "http://github.com/hzz780/node-XMLHttpRequest/issues",
   "engines": {
     "node": ">=0.4.0"
   },
