@@ -13,22 +13,22 @@ describe('XMLHttpRequest redirect', () => {
     const port = await getPort()
     server = http.createServer(function (req, res) {
       if (req.url === '/redirect307') {
-        res.writeHead(307, { 'Location': `http://localhost:${port}/` })
+        res.writeHead(307, { Location: `http://localhost:${port}/` })
         res.end()
         return
       }
       if (req.url === '/redirect303') {
-        res.writeHead(303, { 'Location': `http://localhost:${port}/` })
+        res.writeHead(303, { Location: `http://localhost:${port}/` })
         res.end()
         return
       }
       if (req.url === '/redirect302') {
-        res.writeHead(302, { 'Location': `http://localhost:${port}/` })
+        res.writeHead(302, { Location: `http://localhost:${port}/` })
         res.end()
         return
       }
       if (req.url === '/redirect301') {
-        res.writeHead(301, { 'Location': `http://localhost:${port}/` })
+        res.writeHead(301, { Location: `http://localhost:${port}/` })
         res.end()
         return
       }
@@ -37,8 +37,8 @@ describe('XMLHttpRequest redirect', () => {
       res.writeHead(200, {
         'Content-Type': 'text/plain',
         'Content-Length': Buffer.byteLength(body),
-        'Date': 'Thu, 30 Aug 2012 18:17:53 GMT',
-        'Connection': 'close'
+        Date: 'Thu, 30 Aug 2012 18:17:53 GMT',
+        Connection: 'close'
       })
       res.write('Hello World')
       res.end()

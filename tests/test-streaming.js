@@ -8,7 +8,6 @@ const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
 
 describe('XMLHttpRequest streaming', () => {
   it('should wait until the stream is finished', async () => {
-
     let bodyLength = 0
 
     function completeResponse (res, server, body) {
@@ -81,5 +80,3 @@ describe('XMLHttpRequest streaming', () => {
     expect(loadCount).to.equal(bodyLength)
   })
 })
-
-

@@ -18,7 +18,7 @@ const fs = require('fs')
         res.end(data)
       })
     } else if (req.url === '/cat.png') {
-      let buffer = fs.readFileSync(`${__dirname}/cat.png`)
+      const buffer = fs.readFileSync(`${__dirname}/cat.png`)
       res.writeHead(200, {
         'Content-Type': 'image/png',
         'Content-Length': buffer.byteLength

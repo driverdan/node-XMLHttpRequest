@@ -42,7 +42,7 @@ describe('XMLHttpRequest exceptions', () => {
       'upgrade',
       'via'
     ]
-    for (let i in forbiddenRequestHeaders) {
+    for (const i in forbiddenRequestHeaders) {
       const headerKey = forbiddenRequestHeaders[i]
       xhr.setRequestHeader(headerKey, 'Test')
       // should ignore forbidden request headers and log a warning
