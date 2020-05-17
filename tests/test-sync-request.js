@@ -87,4 +87,30 @@ describe('XMLHttpRequest sync request', () => {
       child.kill()
     }
   })
+  it('should post json data synchronously (with correct content-length)', async () => {
+    const child = childProcess.fork(`${__dirname}/server.js`)
+    try {
+      let responseText = ''
+      await new Promise((resolve) => {
+        child.on('message', message => {
+          if (message && message.port) {
+            const xhr = new XMLHttpRequest()
+            xhr.open('POST', `http://localhost:${message.port}/length`, false)
+            xhr.onload = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  responseText = xhr.responseText
+                }
+              }
+            }
+            xhr.send(' \n{  "message":  "hello" }  \r\n')
+            resolve()
+          }
+        })
+      })
+      expect(responseText).to.equal('30')
+    } finally {
+      child.kill()
+    }
+  })
 })
