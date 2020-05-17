@@ -41,7 +41,7 @@
     "chai": "4.2.0",
     "dirty-chai": "2.0.1",
     "get-port": "4.0.0",
-    "mocha": "5.2.0",
+    "mocha": "7.1.2",
     "standard": "12.0.1"
   }
 }
