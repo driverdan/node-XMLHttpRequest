@@ -61,6 +61,30 @@ describe('XMLHttpRequest sync request', () => {
       child.kill()
     }
   })
+  it('should post data synchronously', async () => {
+    const child = childProcess.fork(`${__dirname}/server.js`)
+    try {
+      let responseText = ''
+      await new Promise((resolve) => {
+        child.on('message', message => {
+          if (message && message.port) {
+            const xhr = new XMLHttpRequest()
+            xhr.open('POST', `http://localhost:${message.port}/echo`, false)
+            xhr.onload = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  responseText = xhr.responseText
+                }
+              }
+            }
+            xhr.send('ping! "from client"')
+            resolve()
+          }
+        })
+      })
+      expect(responseText).to.equal('ping! "from client"')
+    } finally {
+      child.kill()
+    }
+  })
 })
-
-

@@ -18,7 +18,7 @@ describe('XMLHttpRequest request headers', () => {
       // Test non-conforming allowed header
       requestHeaderUserAgent = req.headers['user-agent']
       // Test header set with blacklist disabled
-      requestHeaderReferer = req.headers['referer']
+      requestHeaderReferer = req.headers.referer
       const body = 'Hello World'
       res.writeHead(200, {
         'Content-Type': 'text/plain',
@@ -27,8 +27,8 @@ describe('XMLHttpRequest request headers', () => {
         // Actual values don't matter
         'Set-Cookie': 'foo=bar',
         'Set-Cookie2': 'bar=baz',
-        'Date': 'Thu, 30 Aug 2012 18:17:53 GMT',
-        'Connection': 'close'
+        Date: 'Thu, 30 Aug 2012 18:17:53 GMT',
+        Connection: 'close'
       })
       res.write('Hello World')
       res.end()
@@ -92,6 +92,5 @@ describe('XMLHttpRequest request headers', () => {
     expect(requestHeaderUserAgent).to.equal('node-XMLHttpRequest-test')
     // Test header set with blacklist disabled
     expect(requestHeaderReferer).to.equal('http://github.com')
-
   })
 })

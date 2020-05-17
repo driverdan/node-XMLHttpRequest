@@ -8,7 +8,7 @@ const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
 
 describe('XMLHttpRequest request methods', () => {
   const methods = ['GET', 'POST', 'HEAD', 'PUT', 'DELETE']
-  for (let method of methods) {
+  for (const method of methods) {
     it(`should set and get ${method} method`, async () => {
       const port = await getPort()
       let requestMethod = ''

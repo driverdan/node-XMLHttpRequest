@@ -7,7 +7,6 @@ const getPort = require('get-port')
 const XMLHttpRequest = require('../lib/XMLHttpRequest').XMLHttpRequest
 
 describe('XMLHttpRequest events', () => {
-
   it('should return the value defined in the specification', async () => {
     const port = await getPort()
     const requestListener = function (req, res) {

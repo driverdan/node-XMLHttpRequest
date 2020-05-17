@@ -43,5 +43,8 @@
     "get-port": "5.1.1",
     "mocha": "7.1.2",
     "standard": "14.3.4"
+  },
+  "standard": {
+    "env": [ "mocha" ]
   }
 }
