@@ -5,7 +5,12 @@ const fs = require('fs')
 ;(async () => {
   const port = await getPort()
   const server = http.createServer(function (req, res) {
-    if (req.url === '/echo' && req.method === 'POST') {
+    if (req.url === '/length' && req.method === 'POST') {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      })
+      res.end(req.headers['content-length'])
+    } else if (req.url === '/echo' && req.method === 'POST') {
       let data = ''
       req.on('data', chunk => {
         data += chunk.toString()
