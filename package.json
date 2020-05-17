@@ -45,6 +45,8 @@
     "standard": "14.3.4"
   },
   "standard": {
-    "env": [ "mocha" ]
+    "env": [
+      "mocha"
+    ]
   }
 }
