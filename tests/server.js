@@ -5,7 +5,19 @@ const fs = require('fs')
 ;(async () => {
   const port = await getPort()
   const server = http.createServer(function (req, res) {
-    if (req.url === '/cat.png') {
+    if (req.url === '/echo' && req.method === 'POST') {
+      let data = ''
+      req.on('data', chunk => {
+        data += chunk.toString()
+      })
+      req.on('end', () => {
+        res.writeHead(200, {
+          'Content-Type': 'text/plain',
+          'Content-Length': Buffer.byteLength(data)
+        })
+        res.end(data)
+      })
+    } else if (req.url === '/cat.png') {
       let buffer = fs.readFileSync(`${__dirname}/cat.png`)
       res.writeHead(200, {
         'Content-Type': 'image/png',
