@@ -1,6 +1,8 @@
 > Synchronous and asynchronous XMLHttpRequest for Node
 
-[![Build Status: Linux](https://travis-ci.org/Mogztter/unxhr.svg?branch=master)](https://travis-ci.org/Mogztter/unxhr) [![install size](https://packagephobia.now.sh/badge?p=unxhr)](https://packagephobia.now.sh/result?p=unxhr)
+[![Build Status: Linux](https://travis-ci.org/Mogztter/unxhr.svg?branch=master)](https://travis-ci.org/Mogztter/unxhr)
+[![install size](https://packagephobia.now.sh/badge?p=unxhr)](https://packagephobia.now.sh/result?p=unxhr)
+[![npm version](https://img.shields.io/npm/v/unxhr)](https://www.npmjs.com/package/unxhr)
 
 _unxhr_ is a tiny wrapper of the built-in `http` client to emulate the browser `XMLHttpRequest` object.
 
