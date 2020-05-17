@@ -108,7 +108,7 @@ describe('XMLHttpRequest sync request', () => {
           }
         })
       })
-      expect(responseText).to.equal('30')
+      expect(responseText).to.equal('29')
     } finally {
       child.kill()
     }
