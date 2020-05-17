@@ -1,7 +1,7 @@
 {
   "name": "unxhr",
   "description": "Synchronous and asynchronous XMLHttpRequest for Node",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "files": [
     "lib"
   ],
